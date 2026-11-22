@@ -1,0 +1,65 @@
+# Builds the Grabby Android app and publishes it as a GitHub Release.
+# Runs when you push a version tag like v4.1, or when you press "Run workflow" on the Actions tab.
+# Phones with Grabby installed see "update available" as soon as the release is out.
+name: Build Grabby app
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unpack the app source
+        run: |
+          unzip -q -o source.zip -d .
+          ls
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: actions/setup-python@v5        # Chaquopy needs the same Python version as the app (3.12)
+        with:
+          python-version: "3.12"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+
+      - name: Read version
+        id: ver
+        run: echo "v=$(tr -d '[:space:]' < app/src/main/python/vidgrab/VERSION)" >> "$GITHUB_OUTPUT"
+
+      - name: Check the signing key
+        env:
+          GRABBY_KS_PASS: ${{ secrets.GRABBY_KS_PASS }}
+        run: |
+          if [ -z "$GRABBY_KS_PASS" ]; then echo "::error::Add the GRABBY_KS_PASS secret first (Settings > Secrets and variables > Actions)"; exit 1; fi
+          test -f grabby-release.jks
+
+      - name: Build APK
+        env:
+          GRABBY_KS_PASS: ${{ secrets.GRABBY_KS_PASS }}
+        run: gradle assembleRelease --no-daemon --stacktrace
+
+      - name: Name it Grabby.apk
+        run: cp app/build/outputs/apk/release/app-release.apk Grabby.apk
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.v }}
+          name: Grabby ${{ steps.ver.outputs.v }}
+          files: Grabby.apk
+          make_latest: true
+          body_path: RELEASE_NOTES.md
+          fail_on_unmatched_files: true
