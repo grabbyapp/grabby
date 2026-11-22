@@ -205,6 +205,7 @@
   <details class="reveal"><summary>How do updates work?</summary><p>When a new version is out, Grabby shows "Update available". Tap it, then tap Install. Your saved videos stay.</p></details>
   <details class="reveal" id="iphone"><summary>Does it work on iPhone?</summary><p>There's no iPhone app: Apple only allows apps from its App Store, and it doesn't allow video downloaders there. But you can still get videos onto your iPhone: open <b>Grabby for Windows</b> on a computer, download the video, then tap <b>Send to phone</b> on it and scan the QR code with your iPhone camera (same Wi-Fi). The video opens on your iPhone, ready to save.</p></details>
   <details class="reveal"><summary>Is it safe? Windows warned me.</summary><p>Windows shows "Windows protected your PC" for new apps that aren't signed by a big company. Grabby is free and open: its full code is on GitHub. Click <b>More info → Run anyway</b>.</p></details>
+  <details class="reveal"><summary>Does Grabby track me?</summary><p>No. Grabby only sends anonymous counts, like "the app was opened" or "someone tapped Tip", so Zypher can see how many people use it and from which country. No names, links, videos or IP addresses are kept, and no cookies are used. You can turn it off in Grabby's Settings.</p></details>
   <details class="reveal"><summary>Can I download any video?</summary><p>Only download videos you own or have permission to save, and respect the creators.</p></details>
 </div></section>
 
@@ -252,5 +253,14 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el); });
 </script>
+<!-- Visitor counts (GoatCounter: no cookies, no names, no IP addresses kept) -->
+<script>
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href]'); if (!a || !window.goatcounter || !window.goatcounter.count) return;
+  var h = a.getAttribute('href'), p = /\.apk$/i.test(h) ? 'download-apk' : /\.exe$/i.test(h) ? 'download-exe' : null;
+  if (p) window.goatcounter.count({ path: p, title: p, event: true });
+}, true);
+</script>
+<script data-goatcounter="https://grabbyapp.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
