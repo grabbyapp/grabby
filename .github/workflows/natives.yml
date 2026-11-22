@@ -1,0 +1,14 @@
+# Test build of the phone helper programs (qjs + ffmpeg). Press "Run workflow" to try it.
+name: Build phone helpers
+on: workflow_dispatch
+jobs:
+  natives:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build qjs + ffmpeg for Android
+        run: bash tools/build-natives.sh natives
+      - uses: actions/upload-artifact@v4
+        with:
+          name: natives
+          path: natives
