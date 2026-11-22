@@ -39,12 +39,13 @@ jobs:
         id: ver
         run: echo "v=$(tr -d '[:space:]' < app/src/main/python/vidgrab/VERSION)" >> "$GITHUB_OUTPUT"
 
-      - name: Check the signing key
+      - name: Signing key (from the private repository secrets)
         env:
+          KS: ${{ secrets.GRABBY_KEYSTORE }}
           GRABBY_KS_PASS: ${{ secrets.GRABBY_KS_PASS }}
         run: |
-          if [ -z "$GRABBY_KS_PASS" ]; then echo "::error::Add the GRABBY_KS_PASS secret first (Settings > Secrets and variables > Actions)"; exit 1; fi
-          test -f grabby-release.jks
+          if [ -z "$KS" ] || [ -z "$GRABBY_KS_PASS" ]; then echo "::error::Add the GRABBY_KEYSTORE and GRABBY_KS_PASS secrets (Settings > Secrets and variables > Actions)"; exit 1; fi
+          echo "$KS" | base64 -d > grabby-release.jks
 
       - name: Build APK
         env:
