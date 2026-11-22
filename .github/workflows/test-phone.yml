@@ -8,7 +8,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q -o source.zip -d .
+      - run: unzip -q -o source.zip -d . -x 'tools/*' '.github/*'     # keep the repo's own test scripts
       - name: Phone helpers (reuse last build if nothing changed)
         id: nat
         uses: actions/cache@v4
