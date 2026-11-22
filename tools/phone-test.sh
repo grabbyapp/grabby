@@ -7,6 +7,9 @@ adb install -r -g "$APK" || exit 1
 adb shell am start -n $PKG/.MainActivity
 adb forward tcp:$PORT tcp:$PORT
 for i in $(seq 1 150); do curl -sf "$H/api/health" >/dev/null && break; sleep 2; done
+if ! curl -sf "$H/api/health" >/dev/null; then
+  echo "::error::the app did not start"; adb logcat -d | grep -E "AndroidRuntime|python|chaquopy|FATAL|vidgrab" | tail -n 150; exit 1
+fi
 echo "== health";   curl -s "$H/api/health"; echo
 echo "== selftest"; ST=$(curl -s "$H/api/selftest"); echo "$ST"
 echo "== engine";   curl -s "$H/api/engine"; echo
@@ -30,4 +33,5 @@ try "Vimeo"                '{"url":"https://vimeo.com/76979871","kind":"video","
 try "Dailymotion"          '{"url":"https://www.dailymotion.com/video/x7tgad0","kind":"video","quality":"480"}'
 echo; echo "== results"; cat results.txt
 adb logcat -d -s python.stdout python.stderr | tail -n 200 > python-log.txt
+adb logcat -d | grep -E "AndroidRuntime|FATAL" | tail -n 60
 echo "$ST" | grep -q '"qjs":"ok"' && echo "$ST" | grep -q '"ffmpeg":"ffmpeg version' || { echo "::error::built-in helpers did not run"; exit 1; }
