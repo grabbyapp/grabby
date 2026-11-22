@@ -22,6 +22,23 @@ jobs:
           unzip -q -o source.zip -d .
           ls
 
+      - name: Phone helpers (reuse last build if nothing changed)
+        id: nat
+        uses: actions/cache@v4
+        with:
+          path: natives
+          key: natives-${{ hashFiles('tools/build-natives.sh') }}
+
+      - name: Build phone helpers (QuickJS for YouTube + ffmpeg)
+        if: steps.nat.outputs.cache-hit != 'true'
+        run: bash tools/build-natives.sh natives
+
+      - name: Put the helpers into the app
+        run: |
+          mkdir -p app/src/main/jniLibs
+          cp -r natives/* app/src/main/jniLibs/
+          ls -laR app/src/main/jniLibs
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
