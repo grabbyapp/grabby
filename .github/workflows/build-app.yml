@@ -84,6 +84,7 @@ jobs:
 
   # ---------------------------------------------------------------- Windows app (Grabby-Windows.exe)
   windows:
+    needs: build          # only after the phone app built fine, so both always come out together
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
