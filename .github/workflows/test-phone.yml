@@ -1,0 +1,48 @@
+# Installs the newest app source on an Android emulator and tries real downloads (YouTube, MP3, HD, other sites).
+# Press "Run workflow" on the Actions tab. Results are at the end of the "Try downloads" step.
+name: Test on a phone
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: unzip -q -o source.zip -d .
+      - name: Phone helpers (reuse last build if nothing changed)
+        id: nat
+        uses: actions/cache@v4
+        with:
+          path: natives
+          key: natives-${{ hashFiles('tools/build-natives.sh') }}
+      - if: steps.nat.outputs.cache-hit != 'true'
+        run: bash tools/build-natives.sh natives
+      - run: mkdir -p app/src/main/jniLibs && cp -r natives/* app/src/main/jniLibs/
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.9" }
+      - run: gradle assembleDebug --no-daemon
+      - name: Enable the emulator's speed-up (KVM)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Try downloads
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          script: bash tools/phone-test.sh app/build/outputs/apk/debug/app-debug.apk
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-test
+          path: |
+            results.txt
+            python-log.txt
