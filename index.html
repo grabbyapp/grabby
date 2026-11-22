@@ -30,6 +30,12 @@
   .dl:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #c9c9c9}
   .dl:active{transform:translate(2px,2px);box-shadow:3px 3px 0 #c9c9c9}
   .dl svg{width:24px;height:24px}
+  .dl.alt{background:#fff;color:#111;box-shadow:6px 6px 0 #111;margin-left:10px}
+  .dl.alt svg{stroke:#111}
+  .dls{display:flex;flex-wrap:wrap;gap:12px 0;align-items:center}
+  @media (max-width:520px){.dl.alt{margin-left:0}}
+  .win-steps{counter-reset:w;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+  @media (max-width:820px){.win-steps{grid-template-columns:1fr}}
   .dl .arrow{animation:drop 1.4s ease-in-out infinite}
   @keyframes drop{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
   .meta{margin-top:12px;font-size:14px;color:var(--mut)}
@@ -116,10 +122,16 @@
     <div class="reveal">
       <h1>Save any video in <span class="u">HD</span>. One tap.</h1>
       <p class="lead">Grabby downloads videos from Facebook, Instagram, TikTok, X, YouTube and 1,800 more sites as MP4 or MP3. Free, no account, no watermark.</p>
+      <div class="dls">
       <a class="dl dl-link" id="dlBtn" href="https://github.com/grabbyapp/grabby/releases/latest/download/Grabby.apk">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="arrow"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/></g><path d="M4 20h16"/></svg>
         Download for Android
       </a>
+      <a class="dl alt dl-win" id="winBtn" href="https://github.com/grabbyapp/grabby/releases/latest/download/Grabby-Windows.exe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+        Windows
+      </a>
+      </div>
       <div class="meta" id="meta">Free · Android 7.0 or newer · <b>Grabby.apk</b></div>
       <div class="pills"><span>Facebook</span><span>Instagram</span><span>TikTok</span><span>X</span><span>YouTube</span><span>Reddit</span><span>+1,800 sites</span></div>
     </div>
@@ -171,8 +183,19 @@
   </div>
   <div class="scan reveal" id="scan">
     <svg class="qr-svg" aria-label="QR code to open this page on your phone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 37" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="M4,4h1v1h-1zM5,4h1v1h-1zM6,4h1v1h-1zM7,4h1v1h-1zM8,4h1v1h-1zM9,4h1v1h-1zM10,4h1v1h-1zM15,4h1v1h-1zM19,4h1v1h-1zM20,4h1v1h-1zM23,4h1v1h-1zM24,4h1v1h-1zM26,4h1v1h-1zM27,4h1v1h-1zM28,4h1v1h-1zM29,4h1v1h-1zM30,4h1v1h-1zM31,4h1v1h-1zM32,4h1v1h-1zM4,5h1v1h-1zM10,5h1v1h-1zM13,5h1v1h-1zM14,5h1v1h-1zM15,5h1v1h-1zM16,5h1v1h-1zM26,5h1v1h-1zM32,5h1v1h-1zM4,6h1v1h-1zM6,6h1v1h-1zM7,6h1v1h-1zM8,6h1v1h-1zM10,6h1v1h-1zM12,6h1v1h-1zM14,6h1v1h-1zM15,6h1v1h-1zM18,6h1v1h-1zM20,6h1v1h-1zM26,6h1v1h-1zM28,6h1v1h-1zM29,6h1v1h-1zM30,6h1v1h-1zM32,6h1v1h-1zM4,7h1v1h-1zM6,7h1v1h-1zM7,7h1v1h-1zM8,7h1v1h-1zM10,7h1v1h-1zM12,7h1v1h-1zM13,7h1v1h-1zM14,7h1v1h-1zM21,7h1v1h-1zM23,7h1v1h-1zM26,7h1v1h-1zM28,7h1v1h-1zM29,7h1v1h-1zM30,7h1v1h-1zM32,7h1v1h-1zM4,8h1v1h-1zM6,8h1v1h-1zM7,8h1v1h-1zM8,8h1v1h-1zM10,8h1v1h-1zM12,8h1v1h-1zM17,8h1v1h-1zM18,8h1v1h-1zM19,8h1v1h-1zM22,8h1v1h-1zM23,8h1v1h-1zM24,8h1v1h-1zM26,8h1v1h-1zM28,8h1v1h-1zM29,8h1v1h-1zM30,8h1v1h-1zM32,8h1v1h-1zM4,9h1v1h-1zM10,9h1v1h-1zM12,9h1v1h-1zM13,9h1v1h-1zM14,9h1v1h-1zM15,9h1v1h-1zM16,9h1v1h-1zM17,9h1v1h-1zM18,9h1v1h-1zM19,9h1v1h-1zM20,9h1v1h-1zM21,9h1v1h-1zM22,9h1v1h-1zM26,9h1v1h-1zM32,9h1v1h-1zM4,10h1v1h-1zM5,10h1v1h-1zM6,10h1v1h-1zM7,10h1v1h-1zM8,10h1v1h-1zM9,10h1v1h-1zM10,10h1v1h-1zM12,10h1v1h-1zM14,10h1v1h-1zM16,10h1v1h-1zM18,10h1v1h-1zM20,10h1v1h-1zM22,10h1v1h-1zM24,10h1v1h-1zM26,10h1v1h-1zM27,10h1v1h-1zM28,10h1v1h-1zM29,10h1v1h-1zM30,10h1v1h-1zM31,10h1v1h-1zM32,10h1v1h-1zM12,11h1v1h-1zM15,11h1v1h-1zM17,11h1v1h-1zM20,11h1v1h-1zM22,11h1v1h-1zM24,11h1v1h-1zM4,12h1v1h-1zM6,12h1v1h-1zM7,12h1v1h-1zM8,12h1v1h-1zM9,12h1v1h-1zM10,12h1v1h-1zM14,12h1v1h-1zM16,12h1v1h-1zM18,12h1v1h-1zM21,12h1v1h-1zM22,12h1v1h-1zM24,12h1v1h-1zM26,12h1v1h-1zM27,12h1v1h-1zM28,12h1v1h-1zM29,12h1v1h-1zM30,12h1v1h-1zM5,13h1v1h-1zM6,13h1v1h-1zM9,13h1v1h-1zM11,13h1v1h-1zM12,13h1v1h-1zM14,13h1v1h-1zM15,13h1v1h-1zM16,13h1v1h-1zM21,13h1v1h-1zM22,13h1v1h-1zM23,13h1v1h-1zM24,13h1v1h-1zM25,13h1v1h-1zM26,13h1v1h-1zM27,13h1v1h-1zM28,13h1v1h-1zM32,13h1v1h-1zM4,14h1v1h-1zM5,14h1v1h-1zM7,14h1v1h-1zM8,14h1v1h-1zM10,14h1v1h-1zM11,14h1v1h-1zM12,14h1v1h-1zM13,14h1v1h-1zM14,14h1v1h-1zM15,14h1v1h-1zM16,14h1v1h-1zM19,14h1v1h-1zM20,14h1v1h-1zM21,14h1v1h-1zM24,14h1v1h-1zM25,14h1v1h-1zM6,15h1v1h-1zM9,15h1v1h-1zM11,15h1v1h-1zM13,15h1v1h-1zM14,15h1v1h-1zM15,15h1v1h-1zM16,15h1v1h-1zM18,15h1v1h-1zM19,15h1v1h-1zM22,15h1v1h-1zM25,15h1v1h-1zM26,15h1v1h-1zM28,15h1v1h-1zM29,15h1v1h-1zM31,15h1v1h-1zM4,16h1v1h-1zM6,16h1v1h-1zM7,16h1v1h-1zM9,16h1v1h-1zM10,16h1v1h-1zM14,16h1v1h-1zM20,16h1v1h-1zM21,16h1v1h-1zM23,16h1v1h-1zM29,16h1v1h-1zM30,16h1v1h-1zM4,17h1v1h-1zM5,17h1v1h-1zM6,17h1v1h-1zM9,17h1v1h-1zM11,17h1v1h-1zM12,17h1v1h-1zM13,17h1v1h-1zM15,17h1v1h-1zM17,17h1v1h-1zM18,17h1v1h-1zM20,17h1v1h-1zM21,17h1v1h-1zM22,17h1v1h-1zM23,17h1v1h-1zM24,17h1v1h-1zM26,17h1v1h-1zM27,17h1v1h-1zM28,17h1v1h-1zM32,17h1v1h-1zM6,18h1v1h-1zM8,18h1v1h-1zM9,18h1v1h-1zM10,18h1v1h-1zM11,18h1v1h-1zM12,18h1v1h-1zM14,18h1v1h-1zM16,18h1v1h-1zM17,18h1v1h-1zM18,18h1v1h-1zM19,18h1v1h-1zM22,18h1v1h-1zM24,18h1v1h-1zM25,18h1v1h-1zM26,18h1v1h-1zM27,18h1v1h-1zM28,18h1v1h-1zM29,18h1v1h-1zM30,18h1v1h-1zM4,19h1v1h-1zM5,19h1v1h-1zM8,19h1v1h-1zM11,19h1v1h-1zM13,19h1v1h-1zM16,19h1v1h-1zM17,19h1v1h-1zM23,19h1v1h-1zM24,19h1v1h-1zM28,19h1v1h-1zM31,19h1v1h-1zM5,20h1v1h-1zM6,20h1v1h-1zM7,20h1v1h-1zM8,20h1v1h-1zM9,20h1v1h-1zM10,20h1v1h-1zM11,20h1v1h-1zM15,20h1v1h-1zM16,20h1v1h-1zM18,20h1v1h-1zM19,20h1v1h-1zM21,20h1v1h-1zM29,20h1v1h-1zM30,20h1v1h-1zM4,21h1v1h-1zM5,21h1v1h-1zM6,21h1v1h-1zM7,21h1v1h-1zM8,21h1v1h-1zM9,21h1v1h-1zM16,21h1v1h-1zM20,21h1v1h-1zM21,21h1v1h-1zM22,21h1v1h-1zM23,21h1v1h-1zM24,21h1v1h-1zM25,21h1v1h-1zM26,21h1v1h-1zM27,21h1v1h-1zM28,21h1v1h-1zM30,21h1v1h-1zM32,21h1v1h-1zM4,22h1v1h-1zM7,22h1v1h-1zM9,22h1v1h-1zM10,22h1v1h-1zM12,22h1v1h-1zM13,22h1v1h-1zM14,22h1v1h-1zM16,22h1v1h-1zM19,22h1v1h-1zM21,22h1v1h-1zM25,22h1v1h-1zM30,22h1v1h-1zM4,23h1v1h-1zM6,23h1v1h-1zM8,23h1v1h-1zM11,23h1v1h-1zM15,23h1v1h-1zM16,23h1v1h-1zM18,23h1v1h-1zM23,23h1v1h-1zM24,23h1v1h-1zM28,23h1v1h-1zM31,23h1v1h-1zM4,24h1v1h-1zM6,24h1v1h-1zM9,24h1v1h-1zM10,24h1v1h-1zM11,24h1v1h-1zM15,24h1v1h-1zM16,24h1v1h-1zM19,24h1v1h-1zM21,24h1v1h-1zM22,24h1v1h-1zM23,24h1v1h-1zM24,24h1v1h-1zM25,24h1v1h-1zM26,24h1v1h-1zM27,24h1v1h-1zM28,24h1v1h-1zM30,24h1v1h-1zM31,24h1v1h-1zM32,24h1v1h-1zM12,25h1v1h-1zM13,25h1v1h-1zM14,25h1v1h-1zM16,25h1v1h-1zM17,25h1v1h-1zM18,25h1v1h-1zM20,25h1v1h-1zM21,25h1v1h-1zM22,25h1v1h-1zM24,25h1v1h-1zM28,25h1v1h-1zM29,25h1v1h-1zM30,25h1v1h-1zM31,25h1v1h-1zM32,25h1v1h-1zM4,26h1v1h-1zM5,26h1v1h-1zM6,26h1v1h-1zM7,26h1v1h-1zM8,26h1v1h-1zM9,26h1v1h-1zM10,26h1v1h-1zM13,26h1v1h-1zM15,26h1v1h-1zM16,26h1v1h-1zM17,26h1v1h-1zM18,26h1v1h-1zM19,26h1v1h-1zM20,26h1v1h-1zM21,26h1v1h-1zM23,26h1v1h-1zM24,26h1v1h-1zM26,26h1v1h-1zM28,26h1v1h-1zM29,26h1v1h-1zM30,26h1v1h-1zM4,27h1v1h-1zM10,27h1v1h-1zM12,27h1v1h-1zM13,27h1v1h-1zM14,27h1v1h-1zM17,27h1v1h-1zM19,27h1v1h-1zM24,27h1v1h-1zM28,27h1v1h-1zM32,27h1v1h-1zM4,28h1v1h-1zM6,28h1v1h-1zM7,28h1v1h-1zM8,28h1v1h-1zM10,28h1v1h-1zM12,28h1v1h-1zM13,28h1v1h-1zM15,28h1v1h-1zM18,28h1v1h-1zM19,28h1v1h-1zM21,28h1v1h-1zM24,28h1v1h-1zM25,28h1v1h-1zM26,28h1v1h-1zM27,28h1v1h-1zM28,28h1v1h-1zM30,28h1v1h-1zM31,28h1v1h-1zM4,29h1v1h-1zM6,29h1v1h-1zM7,29h1v1h-1zM8,29h1v1h-1zM10,29h1v1h-1zM12,29h1v1h-1zM13,29h1v1h-1zM17,29h1v1h-1zM20,29h1v1h-1zM22,29h1v1h-1zM27,29h1v1h-1zM29,29h1v1h-1zM30,29h1v1h-1zM31,29h1v1h-1zM32,29h1v1h-1zM4,30h1v1h-1zM6,30h1v1h-1zM7,30h1v1h-1zM8,30h1v1h-1zM10,30h1v1h-1zM12,30h1v1h-1zM14,30h1v1h-1zM15,30h1v1h-1zM16,30h1v1h-1zM17,30h1v1h-1zM18,30h1v1h-1zM19,30h1v1h-1zM21,30h1v1h-1zM26,30h1v1h-1zM27,30h1v1h-1zM28,30h1v1h-1zM29,30h1v1h-1zM30,30h1v1h-1zM31,30h1v1h-1zM4,31h1v1h-1zM10,31h1v1h-1zM13,31h1v1h-1zM15,31h1v1h-1zM23,31h1v1h-1zM24,31h1v1h-1zM25,31h1v1h-1zM27,31h1v1h-1zM29,31h1v1h-1zM31,31h1v1h-1zM4,32h1v1h-1zM5,32h1v1h-1zM6,32h1v1h-1zM7,32h1v1h-1zM8,32h1v1h-1zM9,32h1v1h-1zM10,32h1v1h-1zM12,32h1v1h-1zM13,32h1v1h-1zM14,32h1v1h-1zM15,32h1v1h-1zM16,32h1v1h-1zM19,32h1v1h-1zM20,32h1v1h-1zM21,32h1v1h-1zM23,32h1v1h-1zM25,32h1v1h-1zM27,32h1v1h-1zM28,32h1v1h-1zM30,32h1v1h-1z" fill="#111"/></svg>
-    <p><b>On a computer?</b> Scan this with your phone's camera to open this page there, then tap Download. Grabby is an Android app.</p>
+    <p><b>On a computer?</b> Scan this with your phone's camera to get the Android app there, or <a href="#windows">get Grabby for Windows</a>.</p>
   </div>
+</div></section>
+
+<section id="windows"><div class="wrap">
+  <h2 class="reveal">On a Windows computer</h2>
+  <p class="reveal">Grabby for Windows works just like the app: paste a link, get the video. It opens in your browser.</p>
+  <div class="win-steps">
+    <div class="step reveal"><b>Download</b><p>Get <b>Grabby-Windows.exe</b> <span id="winMeta"></span>. Nothing to install.</p></div>
+    <div class="step reveal"><b>Open it</b><p>If Windows says <b>"Windows protected your PC"</b>, click <b>More info → Run anyway</b>. It shows that for every new app that isn't from a big company.</p></div>
+    <div class="step reveal"><b>Grab!</b><p>Grabby opens in your browser. Keep the small Grabby window open while you use it. Videos go to <b>Videos\Grabby</b>.</p></div>
+  </div>
+  <p class="reveal" style="margin-top:18px"><a class="dl dl-win reveal" href="https://github.com/grabbyapp/grabby/releases/latest/download/Grabby-Windows.exe"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="arrow"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/></g><path d="M4 20h16"/></svg>Download for Windows</a></p>
 </div></section>
 
 <section><div class="wrap">
@@ -180,7 +203,8 @@
   <details class="reveal"><summary>Is Grabby free?</summary><p>Yes, completely free with no ads. If it saves you time, you can send a small tip from the Support page inside the app.</p></details>
   <details class="reveal"><summary>Why isn't it on the Play Store?</summary><p>Google doesn't allow apps that download videos from YouTube on the Play Store, so Grabby is shared directly. Android asks you once to allow the install. That's normal for apps from outside the store.</p></details>
   <details class="reveal"><summary>How do updates work?</summary><p>When a new version is out, Grabby shows "Update available". Tap it, then tap Install. Your saved videos stay.</p></details>
-  <details class="reveal"><summary>Does it work on iPhone?</summary><p>Not yet. Grabby is for Android phones (Android 7.0 or newer).</p></details>
+  <details class="reveal" id="iphone"><summary>Does it work on iPhone?</summary><p>There's no iPhone app: Apple only allows apps from its App Store, and it doesn't allow video downloaders there. But you can still get videos onto your iPhone: open <b>Grabby for Windows</b> on a computer, download the video, then tap <b>Send to phone</b> on it and scan the QR code with your iPhone camera (same Wi-Fi). The video opens on your iPhone, ready to save.</p></details>
+  <details class="reveal"><summary>Is it safe? Windows warned me.</summary><p>Windows shows "Windows protected your PC" for new apps that aren't signed by a big company. Grabby is free and open: its full code is on GitHub. Click <b>More info → Run anyway</b>.</p></details>
   <details class="reveal"><summary>Can I download any video?</summary><p>Only download videos you own or have permission to save, and respect the creators.</p></details>
 </div></section>
 
@@ -198,6 +222,8 @@
   fetch('https://api.github.com/repos/grabbyapp/grabby/releases/latest').then(r => r.ok ? r.json() : null).then(rel => {
     if (!rel) return;
     const apk = (rel.assets || []).find(a => a.name.endsWith('.apk'));
+    const exe = (rel.assets || []).find(a => a.name.endsWith('.exe'));
+    if (exe) document.getElementById('winMeta').textContent = `(${(exe.size / 1048576).toFixed(0)} MB, version ${(rel.tag_name || '').replace(/^v/i, '')})`;
     const v = (rel.tag_name || '').replace(/^v/i, '');
     const mb = apk ? (apk.size / 1048576).toFixed(0) + ' MB' : '';
     document.getElementById('meta').innerHTML = `Free · Version <b>${v}</b>${mb ? ' · ' + mb : ''} · Android 7.0 or newer`;
@@ -208,6 +234,18 @@
     toast.textContent = 'Downloading Grabby… open it when it finishes, then tap Install.';
     toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 5000);
   }));
+  document.querySelectorAll('.dl-win').forEach(a => a.addEventListener('click', () => {
+    toast.textContent = 'Downloading Grabby for Windows… open Grabby-Windows.exe when it finishes.';
+    toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 6000);
+  }));
+  // on a Windows computer, Windows comes first
+  if (/Windows NT/i.test(navigator.userAgent)) {
+    const w = document.getElementById('winBtn'), a = document.getElementById('dlBtn');
+    w.classList.remove('alt'); w.querySelector('svg').setAttribute('stroke', '#fff'); w.lastChild.textContent = ' Download for Windows';
+    a.classList.add('alt'); a.querySelector('svg').setAttribute('stroke', '#111'); a.lastChild.textContent = ' Android';
+    a.parentNode.insertBefore(w, a);
+    document.getElementById('meta').dataset.win = '1';
+  }
   // on a phone the QR code isn't needed
   if (/Android|iPhone|iPad/i.test(navigator.userAgent)) document.getElementById('scan').style.display = 'none';
   // gentle reveal on scroll
