@@ -1,4 +1,4 @@
-# Experiment: can the phone app use Python 3.13 + curl_cffi (helps Instagram and other picky sites)?
+# Experiment: the phone app with yt-dlp-ejs + built-in QuickJS/ffmpeg
 name: Try Python 3.13
 on: workflow_dispatch
 jobs:
@@ -7,18 +7,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: unzip -q -o source.zip -d .
+      - uses: actions/cache@v4
+        id: nat
+        with:
+          path: natives
+          key: natives-${{ hashFiles('tools/build-natives.sh') }}
+      - if: steps.nat.outputs.cache-hit != 'true'
+        run: bash tools/build-natives.sh natives
+      - run: mkdir -p app/src/main/jniLibs && cp -r natives/* app/src/main/jniLibs/
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: "17" }
       - uses: actions/setup-python@v5
-        with: { python-version: "3.13" }
+        with: { python-version: "3.12" }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: "8.9" }
-      - name: Switch to 3.13 + curl_cffi
+      - name: Add yt-dlp-ejs + keep programs as files
         run: |
-          sed -i 's/version = "3.12"/version = "3.13"/; s/install("markupsafe==3.0.3")/install("markupsafe")/; s/install("certifi")/install("certifi")\n            install("yt-dlp-ejs")\n            install("curl_cffi")/' app/build.gradle.kts
-          sed -i 's/Python312/Python313/' app/build.gradle.kts
-          grep -n "install\|version =" app/build.gradle.kts
+          sed -i 's/install("certifi")/install("certifi")\n            install("yt-dlp-ejs")/' app/build.gradle.kts
+          sed -i 's/    compileOptions {/    packaging { jniLibs { useLegacyPackaging = true } }\n    compileOptions {/' app/build.gradle.kts
+          grep -n "install\|packaging" app/build.gradle.kts
       - run: gradle assembleDebug --no-daemon
-      - name: What got installed
-        if: always()
-        run: find app/build -path "*pip*" -maxdepth 8 -type d -name "*.dist-info" | sed 's#.*/##' | sort -u | head -80
+      - name: Check the APK
+        run: |
+          unzip -l app/build/outputs/apk/debug/app-debug.apk | grep -E "lib/|\.apk" | head -40
+          ls -la app/build/outputs/apk/debug/
+          find app/build -type d -name "yt_dlp_ejs*" | head
