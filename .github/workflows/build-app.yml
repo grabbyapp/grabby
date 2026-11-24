@@ -115,7 +115,7 @@ jobs:
         shell: bash
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller flask yt-dlp yt-dlp-ejs imageio-ffmpeg certifi pillow
+          pip install pyinstaller flask yt-dlp yt-dlp-ejs imageio-ffmpeg certifi pillow pywebview pythonnet
           cp -r app/src/main/python/vidgrab desktop/vidgrab
           rm -rf desktop/vidgrab/__pycache__ desktop/vidgrab/server.py
           python -c "from PIL import Image; Image.open('desktop/vidgrab/static/icons/icon-512.png').convert('RGBA').save('desktop/grabby.ico', sizes=[(16,16),(24,24),(32,32),(48,48),(64,64),(128,128),(256,256)])"
@@ -123,17 +123,30 @@ jobs:
           pyinstaller --noconfirm --onefile --windowed --name Grabby-Windows --icon grabby.ico \
             --add-data "vidgrab;vidgrab" --add-data "grabby.ico;." --add-binary "qjs.exe;." \
             --collect-all yt_dlp --collect-all yt_dlp_ejs --collect-all imageio_ffmpeg --collect-submodules flask \
+            --collect-all webview --collect-all clr_loader --collect-all pythonnet --hidden-import clr \
             --hidden-import vidgrab.app --hidden-import vidgrab.qr --hidden-import vidgrab.vault \
             grabby_desktop.py
           ls -la dist
 
-      - name: Check that it starts
+      - name: Check that it installs and opens in its own window
         shell: bash
         run: |
           ./desktop/dist/Grabby-Windows.exe &
           for i in $(seq 1 90); do curl -s localhost:5000/api/health && break; sleep 2; done
           echo
           curl -s localhost:5000/api/health | grep '"desktop":true'
+          L="$LOCALAPPDATA"
+          echo "--- installed files"; ls -la "$L/Programs/Grabby"
+          test -f "$L/Programs/Grabby/Grabby.exe"
+          echo "--- Apps & features entry"
+          reg query 'HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\Grabby'
+          echo "--- shortcuts"; ls -la "$APPDATA/Microsoft/Windows/Start Menu/Programs/Grabby.lnk"
+          sleep 12
+          echo "--- log"; cat "$L/Grabby/grabby.log" || true
+          if grep -q "app window failed" "$L/Grabby/grabby.log"; then echo "::error::Grabby could not open its own window"; exit 1; fi
+          echo "--- open again: must bring the window to the front, not start a second copy"
+          "$L/Programs/Grabby/Grabby.exe" & sleep 8
+          test "$(tasklist //FI 'IMAGENAME eq Grabby.exe' | grep -c Grabby.exe)" -le 2
           curl -s -X POST -H "Content-Type: application/json" -d "{}" localhost:5000/api/quit || true
 
       - name: Publish
