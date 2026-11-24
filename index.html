@@ -10,6 +10,21 @@
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='14' y='18' width='72' height='74' rx='36' fill='white' stroke='black' stroke-width='7'/%3E%3Ccircle cx='38' cy='50' r='8'/%3E%3Ccircle cx='62' cy='50' r='8'/%3E%3Cpath d='M50 18V4' stroke='black' stroke-width='7'/%3E%3C/svg%3E">
 <style>
+.iab-warn{display:none;background:#fff4b0;border-bottom:3px solid #111;padding:14px 18px;position:sticky;top:0;z-index:999;text-align:left}
+.iab-warn b{color:#111}
+.iab-warn p{margin:0 0 8px 0;color:#111;font-size:14.5px;line-height:1.5}
+.iab-warn ol{margin:6px 0 10px 22px;font-size:13.5px;color:#222;line-height:1.5}
+.iab-warn .iab-btns{display:flex;gap:10px;flex-wrap:wrap}
+.iab-warn button{cursor:pointer;background:#111;color:#fff;border:0;padding:9px 16px;font:inherit;font-weight:800;font-size:13px;border-radius:8px}
+.iab-warn button.alt{background:#fff;color:#111;border:2px solid #111;padding:7px 14px}
+body.iab .iab-warn{display:block}
+.share-note{max-width:640px;margin:14px auto 22px;color:#333;line-height:1.55}
+.share-note b{color:#111}
+.share-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.share-btn{cursor:pointer;border:0;font:inherit}
+.share-url{font-size:15px;color:#666}
+.share-url code{background:#f4f4f4;padding:4px 10px;border-radius:6px;font-size:14px}
+
   :root{--ink:#111;--mut:#5c5c5c;--soft:#f4f4f4;--line:1.5px solid #111;--r:14px;--spring:cubic-bezier(.34,1.56,.64,1)}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -113,6 +128,11 @@
 </head>
 <body>
 <div class="wrap">
+  <div class="iab-warn" id="iabWarn">
+    <p><b>⚠️ Open this page in Chrome.</b> You're using Facebook's / Messenger's built-in browser, and downloading apps here will fail with "App not installed as package appears to be invalid".</p>
+    <ol><li>Tap the <b>⋮</b> at the top-right of this screen</li><li>Choose <b>"Open in Chrome"</b> or <b>"Open in external browser"</b></li><li>Then tap <b>Download</b> here</li></ol>
+    <div class="iab-btns"><button type="button" id="iabChrome">Open in Chrome now</button><button type="button" class="alt" id="iabClose">I know, continue anyway</button></div>
+  </div>
   <header>
     <a class="logo" href="#"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 22V8" stroke="#111" stroke-width="6" stroke-linecap="round"/><circle cx="50" cy="7" r="6" fill="#111"/><rect x="14" y="22" width="72" height="72" rx="35" fill="#fff" stroke="#111" stroke-width="6"/><circle cx="38" cy="52" r="7" fill="#111"/><circle cx="62" cy="52" r="7" fill="#111"/><rect x="34" y="68" width="32" height="14" rx="5" fill="#111"/></svg>Grabby</a>
     <a class="nav-dl dl-link" href="https://github.com/grabbyapp/grabby/releases/latest/download/Grabby.apk">Download</a>
@@ -204,9 +224,20 @@
   <details class="reveal"><summary>Why isn't it on the Play Store?</summary><p>Google doesn't allow apps that download videos from YouTube on the Play Store, so Grabby is shared directly. Android asks you once to allow the install. That's normal for apps from outside the store.</p></details>
   <details class="reveal"><summary>How do updates work?</summary><p>When a new version is out, Grabby shows "Update available". Tap it, then tap Install. Your saved videos stay.</p></details>
   <details class="reveal" id="iphone"><summary>Does it work on iPhone?</summary><p>There's no iPhone app: Apple only allows apps from its App Store, and it doesn't allow video downloaders there. But you can still get videos onto your iPhone: open <b>Grabby for Windows</b> on a computer, download the video, then tap <b>Send to phone</b> on it and scan the QR code with your iPhone camera (same Wi-Fi). The video opens on your iPhone, ready to save.</p></details>
+  <details class="reveal" open><summary>"App not installed as package appears to be invalid"</summary><p>This happens when a friend sent you the <b>Grabby.apk file</b> through <b>Facebook Messenger</b>. Messenger damages app files when they pass through it, so Android refuses to install the broken file. Download Grabby from this page instead (tap <b>Download Grabby</b> above), or ask your friend to send you the link to this page instead of the file.</p></details>
   <details class="reveal"><summary>Is it safe? Windows warned me.</summary><p>Windows shows "Windows protected your PC" for new apps that aren't signed by a big company. Grabby is free and open: its full code is on GitHub. Click <b>More info → Run anyway</b>.</p></details>
   <details class="reveal"><summary>Does Grabby track me?</summary><p>No. Grabby only sends anonymous counts, like "the app was opened" or "someone tapped Tip", so Zypher can see how many people use it and from which country. No names, links, videos or IP addresses are kept, and no cookies are used. You can turn it off in Grabby's Settings.</p></details>
   <details class="reveal"><summary>Can I download any video?</summary><p>Only download videos you own or have permission to save, and respect the creators.</p></details>
+</div></section>
+
+<section id="share"><div class="wrap">
+  <h2 class="reveal">Sharing Grabby with a friend?</h2>
+  <p class="reveal share-note"><b>Send them this link, not the Grabby.apk file.</b> Facebook Messenger changes app files when they pass through, so the file breaks and Android says "App not installed as package appears to be invalid". The link always works.</p>
+  <div class="reveal share-actions">
+    <button class="dl share-btn" id="shareBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg><span id="shareTxt">Share Grabby</span></button>
+    <button class="dl alt share-btn" id="copyBtn" type="button"><span id="copyTxt">Copy the link</span></button>
+  </div>
+  <p class="reveal share-url"><code>grabbyapp.github.io/grabby</code></p>
 </div></section>
 
 <div class="wrap cta">
@@ -231,6 +262,49 @@
   }).catch(() => {});
   // friendly message when the download starts
   const toast = document.getElementById('toast');
+  // Share the LINK (not the APK file) so Messenger can't break it
+  const SHARE_URL = location.origin + location.pathname.replace(/\/$/, '/');
+  const sb = document.getElementById('shareBtn'), st = document.getElementById('shareTxt');
+  const cb = document.getElementById('copyBtn'), ct = document.getElementById('copyTxt');
+  if (sb) sb.addEventListener('click', async () => {
+    try {
+      if (navigator.share) { await navigator.share({ title: 'Grabby — save any video', text: 'Save videos from Facebook, Instagram, TikTok, YouTube', url: SHARE_URL }); return; }
+    } catch (e) { if (e && e.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(SHARE_URL); st.textContent = 'Link copied!'; setTimeout(() => st.textContent = 'Share Grabby', 2200); }
+    catch { prompt('Copy this link to share:', SHARE_URL); }
+  });
+  if (cb) cb.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(SHARE_URL); ct.textContent = 'Copied!'; setTimeout(() => ct.textContent = 'Copy the link', 2200); }
+    catch { prompt('Copy this link:', SHARE_URL); }
+  });
+
+  // Facebook / Messenger / Instagram in-app browser: it silently corrupts .apk downloads,
+  // so warn people up front and offer to re-open the page in Chrome.
+  const UA = navigator.userAgent || '';
+  const IN_APP = /FBAN|FBAV|FB_IAB|FBIOS|Messenger|Instagram|Line\//i.test(UA);
+  const IS_ANDROID = /Android/i.test(UA);
+  const PAGE_URL = location.origin + location.pathname;
+  function openInChrome(targetUrl) {
+    const u = (targetUrl || PAGE_URL).replace(/^https?:\/\//, '');
+    const intent = 'intent://' + u + '#Intent;scheme=https;package=com.android.chrome;end';
+    try { location.href = intent; } catch (e) { }
+  }
+  if (IN_APP) {
+    document.body.classList.add('iab');
+    const close = document.getElementById('iabClose');
+    const chr = document.getElementById('iabChrome');
+    if (close) close.addEventListener('click', () => { document.body.classList.remove('iab'); sessionStorage.setItem('iabHide','1'); });
+    if (chr) chr.addEventListener('click', () => { if (IS_ANDROID) openInChrome(PAGE_URL); else alert('Tap the three dots at the top-right and choose "Open in external browser".'); });
+    if (sessionStorage.getItem('iabHide')==='1') document.body.classList.remove('iab');
+    // If the user taps Download anyway inside the in-app browser, try to send them to Chrome one more time.
+    document.addEventListener('click', e => {
+      const a = e.target.closest && e.target.closest('a.dl-link, a.dl-win');
+      if (!a || !IS_ANDROID) return;
+      e.preventDefault();
+      openInChrome(a.getAttribute('href'));
+    }, true);
+  }
+
   document.querySelectorAll('.dl-link').forEach(a => a.addEventListener('click', () => {
     toast.textContent = 'Downloading Grabby… open it when it finishes, then tap Install.';
     toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 5000);
