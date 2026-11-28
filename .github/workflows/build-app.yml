@@ -67,7 +67,7 @@ jobs:
       - name: Build APK
         env:
           GRABBY_KS_PASS: ${{ secrets.GRABBY_KS_PASS }}
-        run: gradle assembleRelease --no-daemon --stacktrace
+        run: gradle assembleRelease -Pgrabby.arm64Only=true --no-daemon --stacktrace
 
       - name: Name it Grabby.apk
         run: cp app/build/outputs/apk/release/app-release.apk Grabby.apk
